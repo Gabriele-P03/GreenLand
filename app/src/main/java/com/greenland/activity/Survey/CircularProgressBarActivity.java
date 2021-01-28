@@ -1,10 +1,8 @@
-package com.greenland.activity.Survey;
+package com.greenland.activity.survey;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.greenland.MainActivity;
 

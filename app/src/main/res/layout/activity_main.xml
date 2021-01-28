@@ -1,106 +1,161 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout3"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="3">
+<layout>
+
+    <data>
+        <variable
+            name="settings"
+            type="com.greenland.LoadSettings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@{settings.BWMode}"
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/TemperaturePCB"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/dark_circle_drawable"
+            android:rotation="-90"
+            app:layout_constraintBottom_toTopOf="@+id/HumidityPCB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="1" />
+
+        <ImageView
+            android:id="@+id/TemperatureIMG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/thermometer"
+            app:layout_constraintBottom_toBottomOf="@id/TemperaturePCB"
+            app:layout_constraintTop_toTopOf="@id/TemperaturePCB"
+            app:layout_constraintEnd_toEndOf="@id/TemperaturePCB"
+            app:layout_constraintStart_toStartOf="@id/TemperaturePCB"/>
+
+        <TextView
+            android:id="@+id/TemperatureTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@{settings.WBMode}"
+            app:layout_constraintEnd_toEndOf="@id/TemperatureIMG"
+            app:layout_constraintStart_toStartOf="@id/TemperatureIMG"
+            app:layout_constraintTop_toBottomOf="@id/TemperatureIMG"/>
 
 
-    <ProgressBar
-        android:id="@+id/TemperaturePCB"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginRight="45dp"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="50"
-        android:progressDrawable="@drawable/circle_drawable"
-        android:rotation="-90"
-        app:layout_constraintBottom_toTopOf="@+id/HumidityPCB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/TemperatureTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="79dp"
-        android:layout_marginBottom="79dp"
-        android:text="CIAO"
-        app:layout_constraintBottom_toTopOf="@+id/HumidityPCB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ProgressBar
+            android:id="@+id/HumidityPCB"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/dark_circle_drawable"
+            android:rotation="-90"
+            app:layout_constraintBottom_toTopOf="@+id/LightPCB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TemperaturePCB"
+            app:layout_constraintVertical_weight="1" />
 
+        <ImageView
+            android:id="@+id/HumidityIMG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/humidity"
+            app:layout_constraintBottom_toBottomOf="@id/HumidityPCB"
+            app:layout_constraintTop_toTopOf="@id/HumidityPCB"
+            app:layout_constraintEnd_toEndOf="@id/HumidityPCB"
+            app:layout_constraintStart_toStartOf="@id/HumidityPCB"/>
 
-    <ProgressBar
-        android:id="@+id/HumidityPCB"
-        style="?android:attr/progressBarStyleHorizontal"
-
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginRight="45dp"
-        android:layout_marginBottom="178dp"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="50"
-        android:progressDrawable="@drawable/circle_drawable"
-        android:rotation="-90"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TemperatureTV" />
-
-    <TextView
-        android:id="@+id/HumidityTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CIAO"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/HumidityTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@{settings.WBMode}"
+            app:layout_constraintEnd_toEndOf="@id/HumidityIMG"
+            app:layout_constraintStart_toStartOf="@id/HumidityIMG"
+            app:layout_constraintTop_toBottomOf="@id/HumidityIMG"/>
 
 
-    <ProgressBar
-        android:id="@+id/LightPCB"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginRight="45dp"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="50"
-        android:progressDrawable="@drawable/circle_drawable"
-        android:rotation="-90"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/HumidityPCB" />
+        <ProgressBar
+            android:id="@+id/LightPCB"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:max="100"
+            android:progress="50"
+            android:progressDrawable="@drawable/dark_circle_drawable"
+            android:rotation="-90"
+            app:layout_constraintBottom_toTopOf="@id/buttonsLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/HumidityPCB"
+            app:layout_constraintVertical_weight="1" />
 
-    <TextView
-        android:id="@+id/LightTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="79dp"
-        android:layout_marginBottom="79dp"
-        android:text="CIAO"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/LightPCB" />
+        <ImageView
+            android:id="@+id/LightIMG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/uv"
+            app:layout_constraintBottom_toBottomOf="@id/LightPCB"
+            app:layout_constraintTop_toTopOf="@id/LightPCB"
+            app:layout_constraintEnd_toEndOf="@id/LightPCB"
+            app:layout_constraintStart_toStartOf="@id/LightPCB"
+            android:rotation="-180"/>
+
+        <TextView
+            android:id="@+id/LightTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@{settings.WBMode}"
+            app:layout_constraintEnd_toEndOf="@id/LightIMG"
+            app:layout_constraintStart_toStartOf="@id/LightIMG"
+            app:layout_constraintTop_toBottomOf="@id/LightIMG"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TableLayout
+            android:id="@+id/buttonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:stretchColumns="*"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TableRow
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
+
+                <ImageButton
+                    android:id="@+id/settingsButton"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/settings"/>
+                <ImageButton
+                    android:id="@+id/bltButton"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/blt"/>
+                <ImageButton
+                    android:id="@+id/syncButton"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/sync"/>
+            </TableRow>
+
+        </TableLayout>
+
+        <!--@null = Transparent-->
+        <ImageButton
+            android:background="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/seed"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,44 @@
+<layout>
+    <data>
+        <variable
+            name="settings"
+            type="com.greenland.LoadSettings" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@{settings.BWMode}"
+        android:orientation="vertical"
+        android:weightSum="4">
+
+
+        <CheckBox
+            android:textSize="25dp"
+            android:id="@+id/darkMode"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:checked="false"
+            android:textColor="@{settings.WBMode}"
+            android:text="DARK MODE"/>
+
+        <Button
+            android:id="@+id/seedButton"
+            android:text="SEED"
+            android:textSize="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="#ffaaaaaa"/>
+
+        <Button
+
+            android:id="@+id/saveSettings"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="SAVE SETTINGS"
+            android:backgroundTint="#ffaaaaaa"/>
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="600dp"
+    android:orientation="vertical">
+
+    <EditText
+        android:textColor="#ff777777"
+        android:id="@+id/namePlant"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="NAME"/>
+    <EditText
+        android:textColor="#ff777777"
+        android:id="@+id/temperaturePlant"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="TEMPERATURE"/>
+    <EditText
+        android:textColor="#ff777777"
+        android:id="@+id/humidityPlant"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="HUMIDITY"/>
+    <EditText
+        android:textColor="#ff777777"
+        android:id="@+id/lightPlant"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="LIGHT"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:backgroundTint="#ff777777"
+        android:text="SAVE SEED"/>
+
+</LinearLayout>

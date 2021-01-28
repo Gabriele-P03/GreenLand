@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GreenLand">
         <activity
-            android:name=".activity.Survey.CircularProgressBarActivity"
+            android:name=".activity.mainButtons.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/Theme.GreenLand.NoActionBar" />
+        <activity
+            android:name=".activity.survey.CircularProgressBarActivity"
             android:label="@string/title_activity_circular_progress_bar"
-            android:theme="@style/Theme.GreenLand.NoActionBar"></activity>
+            android:theme="@style/Theme.GreenLand.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

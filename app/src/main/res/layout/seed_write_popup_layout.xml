@@ -30,6 +30,7 @@
         android:layout_height="100dp"
         android:text="LIGHT"/>
     <Button
+        android:id="@+id/saveSeedButton"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:backgroundTint="#ff777777"

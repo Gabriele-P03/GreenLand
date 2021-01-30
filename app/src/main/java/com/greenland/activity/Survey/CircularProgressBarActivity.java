@@ -6,6 +6,13 @@ import android.os.Handler;
 
 import com.greenland.MainActivity;
 
+/**
+ * This class represents the progressing of the progress bar
+ *
+ * Later this class will be set for every survey. Every one will get an handler
+ * They'll be updated with the data received via HC-05
+ */
+
 public class CircularProgressBarActivity extends Activity {
 
     private int[] amounts = {0, 0, 0};

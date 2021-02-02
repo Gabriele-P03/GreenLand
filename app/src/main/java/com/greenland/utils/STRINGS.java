@@ -2,7 +2,7 @@ package com.greenland.utils;
 
 public enum STRINGS {
 
-    SURVEYS("survey"),
+    SURVEYS("/survey"),
     SEED_FILE("seed.txt"),
     SETTINGS_FILE("settings.txt");
 

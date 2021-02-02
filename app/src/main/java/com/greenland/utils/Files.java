@@ -15,6 +15,14 @@ import java.util.Scanner;
 
 public class Files {
 
+    public static File getDir(Context context, String dirPath){
+        File dir = new File(context.getFilesDir(), dirPath);
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+        return dir;
+    }
+
     public static File getFile(Context context, String fileName){
         File file = new File(context.getFilesDir(), fileName);
         if(!file.exists()){

@@ -9,14 +9,10 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.LayoutDirection;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -24,13 +20,9 @@ import android.widget.TextView;
 
 import com.greenland.activity.mainButtons.SettingsActivity;
 import com.greenland.activity.survey.CircularProgressBarActivity;
+import com.greenland.activity.mainButtons.sync.SyncActivity;
 import com.greenland.databinding.ActivityMainBinding;
-import com.greenland.utils.Files;
-import com.greenland.utils.STRINGS;
 import com.greenland.utils.Seed;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 
 /**
  * @author GABRIELE
@@ -148,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         mainLayout.getLayoutParams().width = newX;
     }
 
-    private void loadButtonsEvent(){
+    private void loadButtonsEvent() {
         mainButtons[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentSettings);
             }
         });
+        mainButtons[2].setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), SyncActivity.class)));
     }
-
 
     public static TextView[] getTextViews() {
         return textViews;

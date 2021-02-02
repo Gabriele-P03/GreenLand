@@ -16,6 +16,8 @@ import java.io.IOException;
  *
  * SETTINGS AVAILABLE:
  *      Dark Mode
+ *      Seed
+ *      IP that will receive surveys
  */
 public class LoadSettings {
 
@@ -25,6 +27,7 @@ public class LoadSettings {
     private Seed seed = null;
 
     private boolean darkMode;
+    private String clientIP;
 
     public LoadSettings(Context context){
 
@@ -44,8 +47,12 @@ public class LoadSettings {
             this.bufferedReader = Files.getBufferedReader(context, STRINGS.SETTINGS_FILE.getString());
             this.seedReader = Files.getBufferedReader(context, STRINGS.SEED_FILE.getString());
             String buffer;
+
             if((buffer = bufferedReader.readLine()) != null ){
                 darkMode = buffer.equals("1");
+            }
+            if((buffer = bufferedReader.readLine()) != null ){
+                this.clientIP = buffer;
             }
 
             bufferedReader.close();
@@ -57,6 +64,8 @@ public class LoadSettings {
     public boolean isDarkMode() {
         return darkMode;
     }
+
+    public String getClientIP() {return clientIP;}
 
     /**
      * Called most of time for background

@@ -30,6 +30,7 @@ import java.io.IOException;
 public class SettingsActivity extends AppCompatActivity {
 
     private CheckBox darkModeCB;
+    private EditText editTextIP;
     private Button seedButton;
 
     ActivitySettingsBinding settingsBinding;
@@ -59,6 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
                 showPopupWindow();
             }
         });
+        this.editTextIP = findViewById(R.id.EditTextIP);
         this.darkModeCB = findViewById(R.id.darkMode);
         this.darkModeCB.setChecked(MainActivity.loadSettings.isDarkMode());
     }
@@ -113,7 +115,8 @@ public class SettingsActivity extends AppCompatActivity {
         BufferedWriter bufferedWriter = null;
         try{
             bufferedWriter = Files.getBufferedWriter(getApplicationContext(), STRINGS.SETTINGS_FILE.getString());
-            bufferedWriter.write( darkModeCB.isChecked() ? "1" : "0");
+            bufferedWriter.write( (darkModeCB.isChecked() ? "1" : "0") +"\n");
+            bufferedWriter.write(this.editTextIP.getText().toString());
 
             bufferedWriter.flush();
             bufferedWriter.close();

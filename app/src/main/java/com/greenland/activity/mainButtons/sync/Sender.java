@@ -1,92 +1,63 @@
 package com.greenland.activity.mainButtons.sync;
 
-import android.app.IntentService;
-import android.content.Context;
-import android.content.Intent;
-import android.widget.Toast;
+import android.os.AsyncTask;
+import android.util.Log;
 
-import androidx.annotation.Nullable;
+import com.greenland.MainActivity;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class Sender extends IntentService {
 
-    private File[] files;
-    private String IP;
-    private int PORT;
+/**
+ * This class run a new thread that send the daily average of the surveys as byte
+ *
+ * @param "strings" is an array of string that contains:
+ *               first: address
+ *               second: port
+ *               third: msg
+ * @see SyncActivity
+ */
+public class Sender extends AsyncTask<String, Void, Void> {
 
-    public Sender() {
-        super("Sending Surveys");
-    }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-
-        String[] filesNames = intent.getExtras().getStringArray("filesName");
-        files = new File[filesNames.length];
-        for (int i = 0; i < files.length; i++){
-            files[i] = new File(getApplicationContext().getFilesDir(), filesNames[i]);
-        }
-
-        IP = intent.getExtras().getString("ip");
-        PORT = ((Integer)intent.getExtras().getInt("port")).intValue();
-
-        Socket clientSocket = null;
-        OutputStream os = null;
-
+    protected Void doInBackground(String... strings) {
+        PrintWriter printWriter;
+        BufferedReader bufferedReader;
         try {
+            Socket socket = new Socket(InetAddress.getByName(MainActivity.loadSettings.getClientIP()), 2020);
+            printWriter = new PrintWriter(socket.getOutputStream());
 
-            clientSocket = new Socket(InetAddress.getByName(IP), PORT);
-            os = clientSocket.getOutputStream();
+            File[] files = SyncActivity.getFiles();
+            String buffer;
 
-            InputStream is = clientSocket.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
-
-            byte[] buffer = new byte[4096];
-
-            for(File file : files) {
-                FileInputStream fis = new FileInputStream(file);
-                BufferedInputStream bis = new BufferedInputStream(fis);
-                // long BytesToSend = fileToSend.length();
-
-                while (true) {
-
-                    int bytesRead = bis.read(buffer, 0, buffer.length);
-
-                    if (bytesRead == -1) {
-                        break;
-                    }
-
-                    //BytesToSend = BytesToSend - bytesRead;
-                    os.write(buffer, 0, bytesRead);
-                    os.flush();
+            for (File file : files) {
+                bufferedReader = new BufferedReader(new FileReader(file));
+                while((buffer = bufferedReader.readLine()) != null){
+                    printWriter.write(buffer);
                 }
-                file.delete();
+                printWriter.write("\n");
             }
-            br.close();
-            isr.close();
-            is.close();
-            os.close();
-            clientSocket.close();
 
-            Toast.makeText(getApplicationContext(), "File trasnfered", Toast.LENGTH_SHORT).show();
+            printWriter.flush();
+            printWriter.close();
+            socket.close();
+            //
+//            for(File file : files){
+//                bufferedReader = new BufferedReader(new FileReader(file));
+//                bufferedWriter.write(bufferedReader.readLine());
+//            }
         } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), "File not trasnfered", Toast.LENGTH_SHORT).show();
+            Log.d(Sender.class.getSimpleName(), "refused");
+            e.printStackTrace();
         }
-    }
 
-    @Override
-    public void onDestroy() {
-        stopSelf();
+        return null;
     }
 }

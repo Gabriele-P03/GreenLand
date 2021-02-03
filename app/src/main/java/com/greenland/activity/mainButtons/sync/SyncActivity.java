@@ -35,16 +35,13 @@ import java.util.ArrayList;
 public class SyncActivity extends AppCompatActivity {
 
     private File folder;
-    private File[] files;
+    private static File[] files;
 
     private TextView countTV;
     private ListView listFiles;
     private Button syncButton;
 
     SyncLayoutBinding syncLayoutBinding;
-
-    private Handler handler;
-    private static Runnable runnable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +61,7 @@ public class SyncActivity extends AppCompatActivity {
     }
 
     private void setList(){
-        this.getFiles();
+        this.loadFiles();
         final ArrayList<String> arrayList = new ArrayList<>();
         for (File file : this.files) {
             arrayList.add(file.getName());
@@ -80,31 +77,20 @@ public class SyncActivity extends AppCompatActivity {
         return !MainActivity.loadSettings.isDarkMode() ? R.layout.listview_blacktext_layout : R.layout.listview_whitetext_layout;
     }
 
+    public static String msg;
     private void sync() {
-        final String IP = MainActivity.loadSettings.getClientIP();
-        final int PORT = 2121;
-
-        Socket socket = new Socket();
-        //socket.connect(InetAddress.getByName(IP));
-
-       /* Intent intent = new Intent(this, Sender.class);
-        String[] fileNames = new String[files.length];
-        for (int i = 0; i < files.length; i++) {
-            fileNames[i] = files[i].getName();
-        }
-        intent.putExtra("ip", IP);
-        intent.putExtra("port", new Integer(PORT));
-        intent.putExtra("filesName", fileNames);
-
-        startService(intent);*/
+        Sender sender = new Sender();
+        sender.execute(new String[]{"Scialla"});
     }
 
-    private void getFiles(){
+    private void loadFiles(){
         files = new File[folder.listFiles().length];
         for(int i = 0; i < folder.listFiles().length; i++){
             files[i] = folder.listFiles()[i];
         }
     }
 
-
+    public static File[] getFiles() {
+        return files;
+    }
 }

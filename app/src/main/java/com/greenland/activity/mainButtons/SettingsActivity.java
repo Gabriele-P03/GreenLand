@@ -31,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private CheckBox darkModeCB;
     private EditText editTextIP;
+    private EditText editTextPORT;
     private Button seedButton;
 
     ActivitySettingsBinding settingsBinding;
@@ -61,6 +62,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         this.editTextIP = findViewById(R.id.EditTextIP);
+        this.editTextPORT = findViewById(R.id.EditTextPORT);
         this.darkModeCB = findViewById(R.id.darkMode);
         this.darkModeCB.setChecked(MainActivity.loadSettings.isDarkMode());
     }
@@ -116,7 +118,8 @@ public class SettingsActivity extends AppCompatActivity {
         try{
             bufferedWriter = Files.getBufferedWriter(getApplicationContext(), STRINGS.SETTINGS_FILE.getString());
             bufferedWriter.write( (darkModeCB.isChecked() ? "1" : "0") +"\n");
-            bufferedWriter.write(this.editTextIP.getText().toString());
+            bufferedWriter.write(this.editTextIP.getText().toString() + "\n");
+            bufferedWriter.write(this.editTextPORT.getText().toString());
 
             bufferedWriter.flush();
             bufferedWriter.close();

@@ -27,7 +27,8 @@ public class LoadSettings {
     private Seed seed = null;
 
     private boolean darkMode;
-    private String clientIP;
+    private String serverIP;
+    private int serverPORT;
 
     public LoadSettings(Context context){
 
@@ -52,7 +53,10 @@ public class LoadSettings {
                 darkMode = buffer.equals("1");
             }
             if((buffer = bufferedReader.readLine()) != null ){
-                this.clientIP = buffer;
+                this.serverIP = buffer;
+            }
+            if((buffer = bufferedReader.readLine()) != null ){
+                this.serverPORT = Integer.valueOf(buffer);
             }
 
             bufferedReader.close();
@@ -65,7 +69,11 @@ public class LoadSettings {
         return darkMode;
     }
 
-    public String getClientIP() {return clientIP;}
+    public String getClientIP() {return serverIP;}
+
+    public int getServerPORT() {
+        return serverPORT;
+    }
 
     /**
      * Called most of time for background

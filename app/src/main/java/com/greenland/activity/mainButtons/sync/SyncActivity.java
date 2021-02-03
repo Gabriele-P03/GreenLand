@@ -79,6 +79,7 @@ public class SyncActivity extends AppCompatActivity {
 
     public static String msg;
     private void sync() {
+        Toast.makeText(getApplicationContext(), MainActivity.loadSettings.getClientIP() + ":" + MainActivity.loadSettings.getServerPORT(), Toast.LENGTH_SHORT).show();
         Sender sender = new Sender();
         sender.execute(new String[]{"Scialla"});
     }

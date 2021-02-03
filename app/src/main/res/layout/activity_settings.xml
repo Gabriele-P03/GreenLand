@@ -26,6 +26,15 @@
         <EditText
             android:textColor="@{settings.WBMode}"
             android:id="@+id/EditTextIP"
+            android:text="IP"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:textColor="@{settings.WBMode}"
+            android:id="@+id/EditTextPORT"
+            android:text="PORT e.g. 2020"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>

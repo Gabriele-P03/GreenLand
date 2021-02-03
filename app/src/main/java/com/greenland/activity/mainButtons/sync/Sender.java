@@ -6,9 +6,11 @@ import android.util.Log;
 import com.greenland.MainActivity;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -28,25 +30,27 @@ public class Sender extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... strings) {
-        PrintWriter printWriter;
+        BufferedWriter bufferedWriter;
         BufferedReader bufferedReader;
         try {
-            Socket socket = new Socket(InetAddress.getByName(MainActivity.loadSettings.getClientIP()), 2020);
-            printWriter = new PrintWriter(socket.getOutputStream());
+            Socket socket = new Socket(InetAddress.getByName(MainActivity.loadSettings.getClientIP()), MainActivity.loadSettings.getServerPORT());
+            bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
             File[] files = SyncActivity.getFiles();
             String buffer;
 
             for (File file : files) {
                 bufferedReader = new BufferedReader(new FileReader(file));
+                bufferedWriter.write(file.getName().replace(".txt", "") + "\n");
                 while((buffer = bufferedReader.readLine()) != null){
-                    printWriter.write(buffer);
+                    bufferedWriter.write(buffer + "\n");
                 }
-                printWriter.write("\n");
+                bufferedWriter.write("\n");
+                file.delete();
             }
 
-            printWriter.flush();
-            printWriter.close();
+            bufferedWriter.flush();
+            bufferedWriter.close();
             socket.close();
             //
 //            for(File file : files){

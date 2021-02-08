@@ -24,6 +24,7 @@ import com.greenland.utils.Files;
 import com.greenland.utils.STRINGS;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -41,6 +42,8 @@ public class SyncActivity extends AppCompatActivity {
     private ListView listFiles;
     private Button syncButton;
 
+    private Button newFile;
+
     SyncLayoutBinding syncLayoutBinding;
 
     @Override
@@ -55,9 +58,28 @@ public class SyncActivity extends AppCompatActivity {
         this.countTV = findViewById(R.id.countFilesTV);
         this.syncButton = findViewById(R.id.syncFilesButton);
         this.syncButton.setOnClickListener(v -> sync());
+
+        this.syncButton = findViewById(R.id.newFileButton);
+        this.syncButton.setOnClickListener(v -> newFile());
+
+
         this.listFiles = findViewById(R.id.listFilesToSync);
         folder = Files.getDir(getApplicationContext(), STRINGS.SURVEYS.getString());
         this.setList();
+    }
+
+    private void newFile() {
+        File file = new File(folder, "07-02-2021.txt");
+        try {
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            String tmp = "12\n19\n20";
+            fos.write(tmp.getBytes());
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setList(){

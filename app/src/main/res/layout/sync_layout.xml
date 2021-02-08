@@ -34,6 +34,14 @@
             android:gravity="center_horizontal" />
 
         <Button
+            android:text="NEW"
+            android:backgroundTint="#ffaaaaaa"
+            android:id="@+id/newFileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/syncFilesButton"/>
+
+        <Button
             android:text="SYNC"
             android:backgroundTint="#ffaaaaaa"
             android:id="@+id/syncFilesButton"

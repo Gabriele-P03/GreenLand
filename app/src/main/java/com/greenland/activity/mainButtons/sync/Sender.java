@@ -45,7 +45,6 @@ public class Sender extends AsyncTask<String, Void, Void> {
                 while((buffer = bufferedReader.readLine()) != null){
                     bufferedWriter.write(buffer + "\n");
                 }
-                bufferedWriter.write("\n");
                 file.delete();
             }
 

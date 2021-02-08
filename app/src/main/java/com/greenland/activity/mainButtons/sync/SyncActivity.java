@@ -32,6 +32,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class SyncActivity extends AppCompatActivity {
 
@@ -68,12 +69,19 @@ public class SyncActivity extends AppCompatActivity {
         this.setList();
     }
 
+    //DELETE. USED FOR DEBUG
     private void newFile() {
-        File file = new File(folder, "07-02-2021.txt");
+        String name = String.valueOf(new Random().nextInt(31)+1);
+        name += "-"+String.valueOf(new Random().nextInt(12)+1);
+        name += "-2021.txt";
+
+        File file = new File(folder, name);
         try {
             file.createNewFile();
             FileOutputStream fos = new FileOutputStream(file);
-            String tmp = "12\n19\n20";
+            String tmp = String.valueOf(new Random().nextInt(100));
+            tmp += "\n"+String.valueOf(new Random().nextInt(100));
+            tmp += "\n"+String.valueOf(new Random().nextInt(100));
             fos.write(tmp.getBytes());
             fos.flush();
             fos.close();

@@ -3,7 +3,8 @@
     package="com.greenland">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission." />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GreenLand">
+        <activity android:name=".activity.mainButtons.blt.BluetoothActivity"></activity>
         <activity
             android:name=".activity.mainButtons.SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -23,16 +25,15 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activity.mainButtons.sync.SyncActivity"
             android:label="@string/title_activity_sync"
             android:theme="@style/Theme.GreenLand.NoActionBar" />
-
+        <service android:name="com.greenland.activity.mainButtons.blt.BLTSocket"></service>
     </application>
-
 
 </manifest>

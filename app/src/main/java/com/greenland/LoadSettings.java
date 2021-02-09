@@ -56,7 +56,9 @@ public class LoadSettings {
                 this.serverIP = buffer;
             }
             if((buffer = bufferedReader.readLine()) != null ){
-                this.serverPORT = Integer.valueOf(buffer);
+                try{
+                    this.serverPORT = Integer.valueOf(buffer);
+                }catch (Exception ignore){}
             }
 
             bufferedReader.close();

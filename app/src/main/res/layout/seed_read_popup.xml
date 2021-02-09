@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:alpha="0.75"
     android:background="@mipmap/seed_background"
-    android:weightSum="4"
+    android:weightSum="5"
     android:orientation="vertical">
 
     <TextView
@@ -34,6 +34,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center_horizontal"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/updateSeedButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="UPDATE SEED"
         android:layout_weight="1"/>
 
 

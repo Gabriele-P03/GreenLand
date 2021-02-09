@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 
+import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
@@ -13,12 +14,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.greenland.activity.mainButtons.SettingsActivity;
+import com.greenland.activity.mainButtons.blt.BLTSocket;
+import com.greenland.activity.mainButtons.blt.BluetoothActivity;
 import com.greenland.activity.survey.CircularProgressBarActivity;
 import com.greenland.activity.mainButtons.sync.SyncActivity;
 import com.greenland.databinding.ActivityMainBinding;
@@ -94,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
 
         loadButtonsEvent();
 
-        Intent intent = new Intent(getApplicationContext(), CircularProgressBarActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(getApplicationContext(), CircularProgressBarActivity.class);
+        //startActivity(intent);
     }
 
     private void showSeedInfo() {
@@ -105,14 +109,21 @@ public class MainActivity extends AppCompatActivity {
 
         Seed seed = loadSettings.getSeed();
 
+        String[] tmp = new String[]{seed.getTemperature()[0] +"-"+ seed.getTemperature()[1],
+                seed.getHumidity()[0] +"-"+ seed.getHumidity()[1],
+                seed.getLight()[0] +"-"+ seed.getLight()[1]};
+
+        Button button = popupView.findViewById(R.id.updateSeedButton);
+        button.setOnClickListener(v -> BluetoothActivity.bltSocket.updateSeed(tmp));
+
         TextView name = popupView.findViewById(R.id.namePlantView);
         name.setText(seed.getNamePlant());
         TextView temperature = popupView.findViewById(R.id.temperaturePlantView);
-        temperature.setText(seed.getTemperature()[0] + " - " + seed.getTemperature()[1]);
+        temperature.setText(tmp[0]);
         TextView humidity = popupView.findViewById(R.id.humidityPlantView);
-        humidity.setText(seed.getHumidity()[0] + " - " + seed.getHumidity()[1]);
+        humidity.setText(tmp[1]);
         TextView light = popupView.findViewById(R.id.lightPlantView);
-        light.setText(seed.getLight()[0] + " - " + seed.getLight()[1]);
+        light.setText(tmp[2]);
 
         int size = ViewGroup.LayoutParams.WRAP_CONTENT;
         final PopupWindow popupWindow = new PopupWindow(popupView, size, size, true);
@@ -141,13 +152,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadButtonsEvent() {
-        mainButtons[0].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentSettings = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intentSettings);
-            }
-        });
+        mainButtons[0].setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), SettingsActivity.class)));
+        mainButtons[1].setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), BluetoothActivity.class)));
         mainButtons[2].setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), SyncActivity.class)));
     }
 

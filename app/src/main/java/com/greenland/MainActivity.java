@@ -109,21 +109,21 @@ public class MainActivity extends AppCompatActivity {
 
         Seed seed = loadSettings.getSeed();
 
-        String[] tmp = new String[]{seed.getTemperature()[0] +"-"+ seed.getTemperature()[1],
-                seed.getHumidity()[0] +"-"+ seed.getHumidity()[1],
-                seed.getLight()[0] +"-"+ seed.getLight()[1]};
+        int[] rcmdValues = new int[]{seed.getTemperature()[0], seed.getTemperature()[1],
+                seed.getHumidity()[0], seed.getHumidity()[1],
+                seed.getLight()[0], seed.getLight()[1]};
 
         Button button = popupView.findViewById(R.id.updateSeedButton);
-        button.setOnClickListener(v -> BluetoothActivity.bltSocket.updateSeed(tmp));
+        button.setOnClickListener(v -> BluetoothActivity.bltSocket.updateSeed(rcmdValues));
 
         TextView name = popupView.findViewById(R.id.namePlantView);
         name.setText(seed.getNamePlant());
         TextView temperature = popupView.findViewById(R.id.temperaturePlantView);
-        temperature.setText(tmp[0]);
+        temperature.setText(rcmdValues[0] + "-" + rcmdValues[1]);
         TextView humidity = popupView.findViewById(R.id.humidityPlantView);
-        humidity.setText(tmp[1]);
+        humidity.setText(rcmdValues[2] + "-" + rcmdValues[3]);
         TextView light = popupView.findViewById(R.id.lightPlantView);
-        light.setText(tmp[2]);
+        light.setText(rcmdValues[4] + "-" + rcmdValues[5]);
 
         int size = ViewGroup.LayoutParams.WRAP_CONTENT;
         final PopupWindow popupWindow = new PopupWindow(popupView, size, size, true);

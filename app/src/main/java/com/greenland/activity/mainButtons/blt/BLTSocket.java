@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.UUID;
 
 /**
@@ -82,17 +83,17 @@ public class BLTSocket extends Service {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
-                byte[] survey = new byte[10];
+                byte[] survey = new byte[12];
                 try {
                     is = socket.getInputStream();
-                    is.read(survey);
-                    setProgressTV(survey);
+                    if(is.read(survey) > 0);
+                        setProgressTV(survey);
                 } catch (IOException e) {
                     e.printStackTrace();
 
                     return;
                 }
-                handler.postDelayed(this, 5000);
+                handler.postDelayed(this, 2000);
             }
         };
         runnable.run();
@@ -101,20 +102,24 @@ public class BLTSocket extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setProgressTV(byte[] survey) {
-        MainActivity.getProgressBars()[0].setProgress(Byte.toUnsignedInt(survey[0]));
-        MainActivity.getTextViews()[0].setText(Byte.toString(survey[0]));
-        MainActivity.getProgressBars()[1].setProgress(Byte.toUnsignedInt(survey[1]));
-        MainActivity.getTextViews()[1].setText(Byte.toString(survey[1]));
-        MainActivity.getProgressBars()[2].setProgress(Byte.toUnsignedInt(survey[2]));
-        MainActivity.getTextViews()[2].setText(Byte.toString(survey[2]));
+
+        MainActivity.getProgressBars()[0].setProgress(survey[0]);
+        MainActivity.getTextViews()[0].setText(String.valueOf(survey[0]) + "°C");
+        MainActivity.getProgressBars()[1].setProgress(survey[1]);
+        MainActivity.getTextViews()[1].setText(String.valueOf(survey[1]) + "%");
+//        MainActivity.getProgressBars()[2].setProgress(Byte.toUnsignedInt(survey[2]));
+//        MainActivity.getTextViews()[2].setText(Byte.toString(survey[2]));
     }
 
-    public void updateSeed(String[] strings){
+
+    public void updateSeed(int[] values){
         OutputStream stream = null;
         try {
             handler.removeCallbacks(runnable);
             stream = socket.getOutputStream();
-            stream.write((strings[0] + " " + strings[1] + " " + strings[2]).getBytes());
+            for(int value : values) {
+                stream.write(value);
+            }
             stream.flush();
         } catch (IOException e) {
             e.printStackTrace();

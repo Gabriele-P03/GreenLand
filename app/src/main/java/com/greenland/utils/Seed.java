@@ -10,7 +10,7 @@ import java.io.IOException;
  * This class sets a seed as object
  *
  * LoadSettings makes an instance of a new object of this class.
- * In order of it, you can pass the bufferedreader of the seed File or the range values of the surveys as string
+ * In order of it, you can pass the buffered reader of the seed File or the range values of the surveys as string
  * @see Seed(BufferedReader)
  * @see Seed(String...)
  */
@@ -39,24 +39,25 @@ public class Seed {
 
     /**
      * Get the index of the dash.
+     * e.g.
+     * "17-18" it returns 2
+     *
      * Substring from 0 to @index is the min value passable
      * String from @index+1 is the max value passable
      *
-     * @param string
+     * @param string - string to divide
      * @return range values as integer array
      */
     private int[] getRangeSurvey(@Nullable String string){
         int[] range = {0, 0};
-        if (string == "" || string == null)
+        if (string == "")
             return range;
 
         int i = 0;
         for (i = 0; i < string.length(); i++){
-            if(string.charAt(i) == '-'){
+            if(string.charAt(i) == '-')
                 break;
-            }
         }
-
 
         if(i < string.length()) {
             range[0] = Integer.valueOf(string.substring(0, i));

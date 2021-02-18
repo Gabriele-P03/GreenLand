@@ -1,11 +1,11 @@
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="settings"
             type="com.greenland.LoadSettings" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@{settings.BWMode}"
@@ -21,23 +21,9 @@
             android:layout_width="match_parent"
             android:checked="false"
             android:textColor="@{settings.WBMode}"
-            android:text="DARK MODE"/>
+            android:text="DARK MODE"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-        <EditText
-            android:textColor="@{settings.WBMode}"
-            android:id="@+id/EditTextIP"
-            android:text="IP"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <EditText
-            android:textColor="@{settings.WBMode}"
-            android:id="@+id/EditTextPORT"
-            android:text="PORT e.g. 2020"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/seedButton"
@@ -46,7 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:backgroundTint="#ffaaaaaa"/>
+            android:backgroundTint="#ffaaaaaa"
+            app:layout_constraintTop_toBottomOf="@id/darkMode"/>
 
         <Button
 
@@ -54,7 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="SAVE SETTINGS"
-            android:backgroundTint="#ffaaaaaa"/>
+            android:backgroundTint="#ffaaaaaa"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

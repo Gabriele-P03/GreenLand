@@ -34,7 +34,9 @@ import java.nio.ByteBuffer;
 import java.util.UUID;
 
 /**
- * This class run a new async task for the bluetooth radio
+ * This class runs a new async task for the bluetooth radio
+ *
+ * @author GABRIELE-P03
  */
 public class BLTSocket extends Service {
 
@@ -43,11 +45,20 @@ public class BLTSocket extends Service {
     private static BluetoothAdapter adapter = null;
     private static BluetoothSocket socket = null;
     private static InputStream is = null;
+    private static OutputStream os = null;
 
     public BLTSocket(){
 
     }
 
+    /**
+     * Constructor called when a bluetooth device has been clicked in the layout
+     * If the phone's bluetooth socket has not already connected , it tries to initialize
+     * the new connection with the one clicked.
+     * Get the stream and set @isBtConnected as true
+     *
+     * @param address - MAC address of the bluetooth device
+     */
     public BLTSocket(String address){
         if (!isBtConnected || !socket.isConnected()) {
             try {
@@ -55,8 +66,9 @@ public class BLTSocket extends Service {
                 BluetoothDevice device = adapter.getRemoteDevice(address);
                 socket = device.createInsecureRfcommSocketToServiceRecord(uuid);
                 socket.connect();
+                is = socket.getInputStream();
+                os = socket.getOutputStream();
                 isBtConnected = true;
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -75,6 +87,11 @@ public class BLTSocket extends Service {
         return START_STICKY;
     }
 
+    /**
+     * This handler keeps updating the three surveys reading their current value
+     * from the bluetooth module's input stream.
+     * Set the the circular progress bar and the own text view below as the relative value
+     */
     Handler handler = new Handler();
     Runnable runnable;
     private void survey() {
@@ -85,12 +102,18 @@ public class BLTSocket extends Service {
             public void run() {
                 byte[] survey = new byte[12];
                 try {
-                    is = socket.getInputStream();
-                    if(is.read(survey) > 0);
-                        setProgressTV(survey);
+                    /*
+                        Once got the current values of the three surveys,
+                        it sets the relative progress bar and the text view
+                     */
+                    if(is.read(survey) > 0){
+                        for(int i = 0; i < 3; i++){
+                            MainActivity.getProgressBars()[i].setProgress(survey[i]);
+                            MainActivity.getTextViews()[i].setText(String.valueOf(survey[i]) + (i == 0 ? "°C" : '%'));
+                        }
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
-
                     return;
                 }
                 handler.postDelayed(this, 2000);
@@ -100,31 +123,25 @@ public class BLTSocket extends Service {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setProgressTV(byte[] survey) {
-
-        MainActivity.getProgressBars()[0].setProgress(survey[0]);
-        MainActivity.getTextViews()[0].setText(String.valueOf(survey[0]) + "°C");
-        MainActivity.getProgressBars()[1].setProgress(survey[1]);
-        MainActivity.getTextViews()[1].setText(String.valueOf(survey[1]) + "%");
-//        MainActivity.getProgressBars()[2].setProgress(Byte.toUnsignedInt(survey[2]));
-//        MainActivity.getTextViews()[2].setText(Byte.toString(survey[2]));
-    }
-
-
+    /**
+     * Called when the user click on the UPDATE SEED button
+     * on the popup menu of the ViewSeed layout
+     *
+     * Send to the HC-05 the new recommended values
+     *
+     * @param values
+     */
     public void updateSeed(int[] values){
-        OutputStream stream = null;
         try {
             handler.removeCallbacks(runnable);
-            stream = socket.getOutputStream();
             for(int value : values) {
-                stream.write(value);
+                os.write(value);
             }
-            stream.flush();
+            os.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            handler.postDelayed(runnable, 5000);
+            handler.postDelayed(runnable, 2000);
         }
     }
 
@@ -135,6 +152,9 @@ public class BLTSocket extends Service {
         return null;
     }
 
+    /**
+     * Close the socket and set @isBtConnected as false when the app is closed or crashes
+     */
     @Override
     public void onDestroy() {
         try {
@@ -145,15 +165,4 @@ public class BLTSocket extends Service {
         }
     }
 
-/*    private final class ServiceHandler extends Handler{
-
-        public ServiceHandler(Looper looper){
-            super(looper);
-        }
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            survey();
-        }
-    }*/
 }

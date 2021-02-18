@@ -141,10 +141,6 @@
                     android:id="@+id/bltButton"
                     android:layout_height="50dp"
                     android:src="@mipmap/blt"/>
-                <ImageButton
-                    android:id="@+id/syncButton"
-                    android:layout_height="50dp"
-                    android:src="@mipmap/sync"/>
             </TableRow>
 
         </TableLayout>

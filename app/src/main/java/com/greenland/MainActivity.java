@@ -4,8 +4,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
-
-import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
@@ -19,31 +17,25 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.greenland.activity.mainButtons.SettingsActivity;
-import com.greenland.activity.mainButtons.blt.BLTSocket;
 import com.greenland.activity.mainButtons.blt.BluetoothActivity;
-import com.greenland.activity.survey.CircularProgressBarActivity;
-import com.greenland.activity.mainButtons.sync.SyncActivity;
 import com.greenland.databinding.ActivityMainBinding;
 import com.greenland.utils.Seed;
 
 /**
- * @author GABRIELE
- * @link https://github.com/Gabriele-P03/GreenLand
- *
  * This class represents the Main Activity
  *
  * Shows the current data which represents the plant's state.
  * Data are get via HC-05 module.
+ *
+ * @author GABRIELE
  */
-
 public class MainActivity extends AppCompatActivity {
 
     private static ConstraintLayout mainLayout;
     private static TextView[] textViews = new TextView[3];
     private static ProgressBar[] progressBars = new ProgressBar[3];
-    private static ImageButton[] mainButtons = new ImageButton[3];
+    private static ImageButton[] mainButtons = new ImageButton[2];
     private static ImageButton seedViewButton;
 
     //Data binding
@@ -71,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
      * For each survey, it get textView and progressBar, and buttons in the main layout.
      * Every progress bar is set to use the drawable with the opposite color of the theme
      * e.g
-     *  if dark theme is set, light circle is used
+     *  if dark theme is set, light circle is used and vice versa
      *
      * @see @drawable/dark_circle_drawable
      * @see @drawable/light_circle_drawable
@@ -91,17 +83,17 @@ public class MainActivity extends AppCompatActivity {
 
         mainButtons[0] = findViewById(R.id.settingsButton);
         mainButtons[1] = findViewById(R.id.bltButton);
-        mainButtons[2] = findViewById(R.id.syncButton);
 
         seedViewButton = findViewById(R.id.seedViewButton);
         seedViewButton.setOnClickListener(v -> showSeedInfo());
 
         loadButtonsEvent();
-
-        //Intent intent = new Intent(getApplicationContext(), CircularProgressBarActivity.class);
-        //startActivity(intent);
     }
 
+    /**
+     * Called when the user clicks on the seed image button on the main layout.
+     * Inflate the own layout and set every text view
+     */
     private void showSeedInfo() {
 
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -140,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadScreenSize() {
         mainLayout = findViewById(R.id.mainLayout);
         Point point = new Point();
+        //Returns the real size in the @point
         getWindowManager().getDefaultDisplay().getRealSize(point);
 
         ViewGroup.LayoutParams tmp = mainLayout.getLayoutParams();
@@ -154,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
     private void loadButtonsEvent() {
         mainButtons[0].setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), SettingsActivity.class)));
         mainButtons[1].setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), BluetoothActivity.class)));
-        mainButtons[2].setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), SyncActivity.class)));
     }
 
     public static TextView[] getTextViews() {
@@ -164,6 +156,4 @@ public class MainActivity extends AppCompatActivity {
     public static ProgressBar[] getProgressBars() {
         return progressBars;
     }
-
-    public static ImageButton[] getMainButtons() { return mainButtons; }
 }

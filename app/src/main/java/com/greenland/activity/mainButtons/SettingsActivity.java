@@ -24,14 +24,14 @@ import java.io.IOException;
 
 /**
  * Settings Activity
- * Intent started when settings button is tapped.
+ * Activity started when settings button, in the main layout, is clicked
+ * This one afford the user to change the recommended values of the seed and the dark mode
  *
+ * @author GABRIELE-P03
  */
 public class SettingsActivity extends AppCompatActivity {
 
     private CheckBox darkModeCB;
-    private EditText editTextIP;
-    private EditText editTextPORT;
     private Button seedButton;
 
     ActivitySettingsBinding settingsBinding;
@@ -48,28 +48,16 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void loadComponents() {
         this.saveButton = findViewById(R.id.saveSettings);
-        this.saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveSettings();
-            }
-        });
+        this.saveButton.setOnClickListener( v -> saveSettings() );
         this.seedButton = findViewById(R.id.seedButton);
-        this.seedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPopupWindow();
-            }
-        });
-        this.editTextIP = findViewById(R.id.EditTextIP);
-        this.editTextPORT = findViewById(R.id.EditTextPORT);
+        this.seedButton.setOnClickListener( v -> showPopupWindow());
         this.darkModeCB = findViewById(R.id.darkMode);
         this.darkModeCB.setChecked(MainActivity.loadSettings.isDarkMode());
     }
 
     /**
-     * New popup layout. It is inflated when seed button is tapped
-     * This layout is used to set a new plant(its recommended range about temperature, humidity and light)
+     * New popup layout. It is inflated when seed button is clicked
+     * This layout is used to set the new recommended values of the plant
      */
     View popupView;
     private void showPopupWindow() {
@@ -77,9 +65,8 @@ public class SettingsActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView = layoutInflater.inflate(R.layout.seed_write_popup_layout, null);
         popupView.setBackgroundColor(MainActivity.loadSettings.getWBMode());
-        //Create the popup window
-        int width_height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        boolean focus = true; //To dismiss popup window when I tap over it
+        int width_height = ViewGroup.LayoutParams.WRAP_CONTENT; //Create the popup window
+        boolean focus = true; //To close the popup window when the user tap over it
         final PopupWindow popupWindow = new PopupWindow(popupView, width_height, width_height, focus);
 
         //View given doesn't mind, it will used only for window token
@@ -89,9 +76,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void saveSeed() {
-        //SAVE SEED NOT SAVE
-        //STOPPED HERE
-
         BufferedWriter seedFile;
         EditText name = popupView.findViewById(R.id.namePlant);
         EditText temperature = popupView.findViewById(R.id.temperaturePlant);
@@ -117,10 +101,7 @@ public class SettingsActivity extends AppCompatActivity {
         BufferedWriter bufferedWriter = null;
         try{
             bufferedWriter = Files.getBufferedWriter(getApplicationContext(), STRINGS.SETTINGS_FILE.getString());
-            bufferedWriter.write( (darkModeCB.isChecked() ? "1" : "0") +"\n");
-            bufferedWriter.write(this.editTextIP.getText().toString() + "\n");
-            bufferedWriter.write(this.editTextPORT.getText().toString());
-
+            bufferedWriter.write( (darkModeCB.isChecked() ? "1" : "0") );
             bufferedWriter.flush();
             bufferedWriter.close();
             Toast.makeText(getApplicationContext(), "Settings saved", Toast.LENGTH_SHORT).show();

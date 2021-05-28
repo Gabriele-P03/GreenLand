@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.UUID;
 
 /**
@@ -106,7 +107,7 @@ public class BLTSocket extends Service {
                         Once got the current values of the three surveys,
                         it sets the relative progress bar and the text view
                      */
-                    if(is.read(survey) > 0){
+                    if(is.read(survey, 0, 12) >= 3){
                         for(int i = 0; i < 3; i++){
                             MainActivity.getProgressBars()[i].setProgress(survey[i]);
                             MainActivity.getTextViews()[i].setText(String.valueOf(survey[i]) + (i == 0 ? "°C" : '%'));
@@ -116,7 +117,7 @@ public class BLTSocket extends Service {
                     e.printStackTrace();
                     return;
                 }
-                handler.postDelayed(this, 2000);
+                handler.postDelayed(this, 2500);
             }
         };
         runnable.run();
